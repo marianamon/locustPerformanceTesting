@@ -1,0 +1,19 @@
+{
+  "name": "locustperformancetesting",
+  "version": "1.0.0",
+  "description": "load testing with Locust",
+  "main": "index.js",
+  "scripts": {
+    "test": "locust"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marianamon/locustPerformanceTesting.git"
+  },
+  "author": "Mariana Alzatte",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marianamon/locustPerformanceTesting/issues"
+  },
+  "homepage": "https://github.com/marianamon/locustPerformanceTesting#readme"
+}
