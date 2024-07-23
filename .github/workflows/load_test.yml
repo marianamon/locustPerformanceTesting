@@ -28,5 +28,6 @@ jobs:
 
     - name: Run locust load test
       run: |
-        python Productsfile.py
-      working-directory: ./locust/tests/Productsfile.py
+        python locust/tests/Productsfile.py
+
+      
