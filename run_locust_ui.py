@@ -33,4 +33,3 @@ web_ui.start()
 
 # Run the test
 env.runner.greenlet.join()
-
