@@ -1,3 +1,4 @@
+from locust import task
 from .abstract_user import AbstractUser
 
 class UserFactory:
