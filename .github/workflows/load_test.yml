@@ -28,14 +28,16 @@ jobs:
           npm install
           npm run install-dependencies
 
-    - name: Free port 8089
+    - name: Free ports 8089 and 8090
       run: |
-        if lsof -i :8089; then
-          echo "Killing process on port 8089"
-          kill -9 $(lsof -t -i :8089)
-        else
-          echo "No process on port 8089"
-        fi
+            for port in 8089 8090; do
+              if lsof -i :$port; then
+                echo "Killing process on port $port"
+                kill -9 $(lsof -t -i :$port)
+              else
+                echo "No process on port $port"
+              fi
+            done
   
     - name: Run locust UI
       env:

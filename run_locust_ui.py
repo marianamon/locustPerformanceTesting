@@ -2,6 +2,7 @@ from locust import HttpUser, task, between
 from locust.env import Environment
 from locust.web import WebUI
 from factory.user_factory import UserFactory
+import sys
 
 class ProductsUser(HttpUser):
     wait_time = between(1, 2.5)
@@ -15,11 +16,16 @@ class ProductsUser(HttpUser):
             }
         )
 
+# Parse command line arguments for the web port
+web_port = 8089
+if len(sys.argv) > 1:
+    web_port = int(sys.argv[1].split('=')[-1])
+
 # Create environment and runner
 env = Environment(user_classes=[ProductsUser])
 
-# Start the web UI on port 8089
-web_ui = WebUI(env, host="0.0.0.0", port=8089)
+# Start the web UI on the specified port
+web_ui = WebUI(env, host="0.0.0.0", port=web_port)
 env.create_local_runner()
 
 # Start the UI
@@ -27,3 +33,4 @@ web_ui.start()
 
 # Run the test
 env.runner.greenlet.join()
+
