@@ -27,6 +27,15 @@ jobs:
           pip install -r requirements.txt
           npm install
           npm run install-dependencies
+
+    - name: Free port 8089
+      run: |
+        if lsof -i :8089; then
+          echo "Killing process on port 8089"
+          kill -9 $(lsof -t -i :8089)
+        else
+          echo "No process on port 8089"
+        fi
   
     - name: Run locust UI
       env:
