@@ -1,10 +1,10 @@
-from locust import HttpUser, task, between
+from locust import HttpUser
 from abc import ABC, abstractmethod
 
-class AbstractUser(HttpUser, ABC):
-    wait_time = between(1, 2.5)
+class BaseUserMeta(type(HttpUser), type(ABC)):
+    pass
 
+class AbstractUser(HttpUser, ABC, metaclass=BaseUserMeta):
     @abstractmethod
-    @task
-    def perform_task(self):
+    def some_method(self):
         pass
