@@ -28,6 +28,12 @@ jobs:
 
     - name: Run locust load test
       run: |
-        python locust/tests/Productsfile.py
+        python tests/products_test.py
+
+    - name: Upload load test results
+      uses: actions/upload-artifact@v2
+      with:
+        name: load-test-stats
+        path: load_test_stats/
 
       
