@@ -1,0 +1,53 @@
+name: Dashboard Grafana and Integration prometheus
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  load-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        npm install
+        npm run install-dependencies
+
+    - name: Start Prometheus
+      run: |
+        wget https://github.com/prometheus/prometheus/releases/download/v2.29.1/prometheus-2.29.1.linux-amd64.tar.gz
+        tar xvfz prometheus-*.tar.gz
+        cd prometheus-*
+        ./prometheus --config.file=prometheus.yml &
+
+    - name: Start Grafana
+      run: |
+        wget https://dl.grafana.com/oss/release/grafana-7.5.10.linux-amd64.tar.gz
+        tar -zxvf grafana-7.5.10.linux-amd64.tar.gz
+        cd grafana-7.5.10/bin
+        ./grafana-server web &
+
+    - name: Run locust tests
+      env:
+        PYTHONPATH: .
+      run: |
+        python tests/products_test.py
+
+    - name: Display Grafana Dashboard URL
+      run: |
+        echo "Grafana Dashboard URL: http://localhost:3000/d/bdtbq7mzoh0cgd/locust-execution?orgId=1"
